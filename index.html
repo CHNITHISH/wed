@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AG</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const targetDate = new Date('2025-02-16T11:00:00');
+            const timerElement = document.getElementById('timer');
+
+            function updateTimer() {
+                const now = new Date();
+                const difference = targetDate - now;
+
+                if (difference > 0) {
+                    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((difference / (1000 * 60)) % 60);
+                    const seconds = Math.floor((difference / 1000) % 60);
+
+                    timerElement.textContent = `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`;
+                } else {
+                    timerElement.textContent = "Time's up!";
+                }
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        });
+    </script>
+</head>
+<body>
+    <div class="language-selection">
+        <img src="vinayaka.png" alt="Vinayaka" class="vinayaka-image">
+
+        <h2>Select the Language:</h2>
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('hi')">Hindi</button>
+        <button onclick="setLanguage('te')">Telugu</button>
+    </div>
+    <div id="app-container" class="app-container" style="display: none;">
+        <div class="back-button-container">
+            <button class="back-button" onclick="goBack()">
+                <img src="back.png" alt="Back Icon" class="back-icon"> Back
+            </button>
+        </div>
+        
+        <h1 id="telugu-heading" style="display: none;">కుంభాల వారి పెండ్లిపిలుపు</h1>
+        <h1 id="english-heading" style="display: none;">Kumbala's Wedding Invitation</h1>
+
+        <img src="vinayaka.png" alt="Vinayaka" class="vinayaka-image">
+        <h1 id="title">Abhilash weds Gayatri</h1>
+        <h1 id="subtitle">వివాహం</h1>
+        <h1 id="subsubtitle">గాయత్రితో (చందన)</h1>
+        <img src="frame.png" alt="Frame" class="frame-image">
+        <h2 id="save-the-date">Save the Date</h2>
+        <h1 id="date">16 February 2025</h1>
+        <div id="timer" class="timer"></div>
+        <h2 class="rec">
+            View Location
+          </h2>
+          
+        <div class="location-box">
+            <a href="https://maps.app.goo.gl/w1qpZLLrnovm4jAs8" target="_blank">Marriage</a>
+            <a href="https://maps.app.goo.gl/kWHwcp514wywnV1V7" target="_blank">Reception</a>
+        </div>
+
+        <!-- Emoji Buttons -->
+        <div class="emoji-buttons">
+            <button id="heart-button" onclick="sendEmojiReaction('heart')">❤️</button>
+            <button id="clap-button" onclick="sendEmojiReaction('clap')">👏</button>
+            <button id="hug-button" onclick="sendEmojiReaction('hug')">🤗</button>
+            <button id="thumb-button" onclick="sendEmojiReaction('thumb')">👍</button>
+        </div>
+
+        <!-- Message Box -->
+        <div class="message-box">
+            <h3>Send a message to the groom:</h3>
+            <textarea id="message-text" placeholder="Type your message here..." rows="3"></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <div style="font-family: 'Comic Sans MS', 'Comic Sans', cursive; text-align: center; color: rgb(3, 3, 3); line-height: 1.2;">
+        <h6 style="margin: 5px 0;">© 2025 Chintha Nithish. All rights reserved.</h6>
+        <a href="image.png" target="_blank" title="Know more about the developer" 
+           style="color: rgb(233, 225, 222); border-radius: 20px; background-color: rgb(192, 132, 117); padding: 5px 10px; text-decoration: none; display: inline-block; margin: 5px 0;">
+            Know more about the developer
+        </a>
+        <h6 style="margin: 5px 0;">⚠️Reaction buttons and text area are not yet working, will be connected to the backend soon.</h6>
+    </div>
+    
+    <script>
+        function setLanguage(language) {
+            const text = {
+                en: {
+                    title: 'Abhilash',
+                    subtitle: 'Weds',
+                    subsubtitle: 'Gayatri (Chandana)',
+                    saveTheDate: 'Save the Date',
+                    date: '16 February 2025',
+                },
+                hi: {
+                    title: 'अभिलाष',
+                    subtitle: 'विवाह',
+                    subsubtitle: 'गायत्री के साथ (चंदन)',
+                    saveTheDate: 'तारीख़ याद रखें',
+                    date: '16 फरवरी 2025',
+                },
+                te: {
+                    title: 'అభిలాష్',
+                    subtitle: 'వివాహం',
+                    subsubtitle: 'గాయత్రితో (చందన)',
+                    saveTheDate: 'తేదీ గుర్తుంచుకోండి',
+                    date: '16 ఫిబ్రవరి 2025',
+                }
+            };
+
+            document.querySelector('.language-selection').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+
+            document.getElementById('title').textContent = text[language].title;
+            document.getElementById('subtitle').textContent = text[language].subtitle;
+            document.getElementById('subsubtitle').textContent = text[language].subsubtitle;
+            document.getElementById('save-the-date').textContent = text[language].saveTheDate;
+            document.getElementById('date').textContent = text[language].date;
+
+            // Show appropriate heading
+            if (language === 'te') {
+                document.getElementById('telugu-heading').style.display = 'block';
+                document.getElementById('english-heading').style.display = 'none';
+            } else {
+                document.getElementById('telugu-heading').style.display = 'none';
+                document.getElementById('english-heading').style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            document.querySelector('.language-selection').style.display = 'flex';
+            document.getElementById('app-container').style.display = 'none';
+        }
+
+        // Function to send emoji reactions to Google Sheets
+        function sendEmojiReaction(emoji) {
+            const reactions = {
+                heart: '❤️',
+                clap: '👏',
+                hug: '🤗',
+                thumb: '👍'
+            };
+
+            const emojiData = { emoji: reactions[emoji], count: 1 };
+            // Replace with Google Sheets API code to store data
+            console.log('Reaction Sent:', emojiData);
+        }
+
+        // Function to send message to the groom
+        function sendMessage() {
+            const message = document.getElementById('message-text').value;
+            // Replace with Google Sheets API code to store message
+            console.log('Message Sent:', message);
+            document.getElementById('message-text').value = ''; // Clear message box
+        }
+    </script>
+</body>
+</html>
